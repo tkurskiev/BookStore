@@ -1,6 +1,5 @@
 ﻿using BookStore.API.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.API.Controllers
 {

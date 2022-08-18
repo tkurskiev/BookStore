@@ -1,7 +1,7 @@
 ﻿using BookStore.API.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BookStore.API.Data
+namespace BookStore.Data
 {
     public partial class BookStoreDbContext : DbContext
     {
