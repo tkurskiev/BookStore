@@ -23,8 +23,7 @@ namespace BookStore.API.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=.;Database=BookStoreDb;User Id=Tims;Password=LightningBolt1;");
+                optionsBuilder.UseSqlServer("Name=ConnectionStrings:BookStoreDatabase");
             }
         }
 
@@ -39,9 +38,7 @@ namespace BookStore.API.Data
 
                 entity.Property(e => e.Author)
                     .HasMaxLength(256)
-                    .IsUnicode(false)
-                    .HasColumnName("author")
-                    .IsFixedLength();
+                    .HasColumnName("author");
 
                 entity.Property(e => e.PublicationDate)
                     .HasColumnType("date")
@@ -49,9 +46,7 @@ namespace BookStore.API.Data
 
                 entity.Property(e => e.Title)
                     .HasMaxLength(256)
-                    .IsUnicode(false)
-                    .HasColumnName("title")
-                    .IsFixedLength();
+                    .HasColumnName("title");
             });
 
             OnModelCreatingPartial(modelBuilder);

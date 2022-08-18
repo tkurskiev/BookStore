@@ -6,6 +6,10 @@ Database scaffolding:
 ```
 dotnet ef dbcontext scaffold "Server=.;Database=BookStoreDb;User Id=Tims;Password=LightningBolt1;" Microsoft.EntityFrameworkCore.SqlServer -o Models --context-dir Data
 ```
+or:
+```
+dotnet ef dbcontext scaffold Name=ConnectionStrings:BookStoreDatabase  Microsoft.EntityFrameworkCore.SqlServer -o Models --context-dir Data
+```
 
 ## SQL Scripts
 
@@ -28,14 +32,19 @@ CREATE TABLE Books
 GO
 
 INSERT INTO Books(author, title, publication_date)
-VALUES ('Михаил Булгаков', 'Мастер и Маргарита', '19670101')
+VALUES (N'Михаил Булгаков', N'Мастер и Маргарита', '19670101')
 ,('Jerome David Salinger', 'The Catcher in the Rye', '19510716')
 ,('Aldous Huxley', 'Point Counter Point', '19280101')
-,('Александр Пушкин', 'Евгений Онегин', '18330101')
+,(N'Александр Пушкин', N'Евгений Онегин', '18330101')
 ,('John Ronald Reuel Tolkien', 'The Lord of the Rings', '19551020')
 
-CREATE LOGIN Tims WITH PASSWORD = LightningBolt1;
+USE [BookStoreDb]
 GO
+CREATE LOGIN Tims WITH PASSWORD = 'LightningBolt1'
+GO
+Use [BookStoreDb];
+GO
+
 IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = N'Tims')
 BEGIN
     CREATE USER Tims FOR LOGIN Tims
