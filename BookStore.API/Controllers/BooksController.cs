@@ -1,4 +1,5 @@
 ﻿using BookStore.API.Data;
+using BookStore.API.Data.Repositories.Implementations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.API.Controllers
@@ -7,17 +8,17 @@ namespace BookStore.API.Controllers
     [Route("api/[controller]")]
     public class BooksController : ControllerBase
     {
-        private readonly BookStoreDbContext _context;
+        private readonly BookRepository _books;
 
-        public BooksController(BookStoreDbContext context)
+        public BooksController(BookRepository books)
         {
-            _context = context;
+            _books = books;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(_context.Books);
+            return Ok(await _books.GetAll());
         }
     }
 }
