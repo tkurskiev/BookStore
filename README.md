@@ -23,8 +23,8 @@ GO
 CREATE TABLE Books
 (
     id int  NOT NULL IDENTITY(1, 1),
-    author char(256)  NOT NULL,
-    title char(256)  NOT NULL,
+    author nvarchar(256)  NOT NULL,
+    title nvarchar(256)  NOT NULL,
     publication_date date NOT NULL,
     CONSTRAINT book_ak_1 UNIQUE (author, title),
     CONSTRAINT book_pk PRIMARY KEY  (id)
