@@ -3,7 +3,9 @@
 ## EF Scripts
 
 Database scaffolding:
+```
 dotnet ef dbcontext scaffold "Server=.;Database=BookStoreDb;User Id=Tims;Password=LightningBolt1;" Microsoft.EntityFrameworkCore.SqlServer -o Models --context-dir Data
+```
 
 ## SQL Scripts
 
