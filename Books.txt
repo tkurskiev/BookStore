@@ -156,7 +156,7 @@
 ,(N'Nancy Drew', N'Various authors as Carolyn Keene', '1930'	)
 ,(N'San-Antonio', N'Frédéric Dard', '1949'	)
 ,(N'Robert Langdon', N'Dan Brown', '2000'	)
-,(N'Geronimo Stilton', N'Elisabetta Dami', '1997-present	)
+,(N'Geronimo Stilton', N'Elisabetta Dami', '1997'	)
 ,(N'Percy Jackson & the Olympians', N'Rick Riordan', '2005'	)
 ,(N'The Baby-sitters Club', N'Ann Martin', '1986'	)
 ,(N'Twilight', N'Stephenie Meyer', '2005'	)
