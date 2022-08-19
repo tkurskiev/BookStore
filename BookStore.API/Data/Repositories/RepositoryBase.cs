@@ -14,44 +14,45 @@ namespace BookStore.API.Data.Repositories
             DbContext = dbContext;
         }
 
-        public virtual Task<T?> Get(int id)
+        public virtual Task<T?> GetAsync(int id)
         {
             return DbContext.Set<T>().FindAsync(id).AsTask();
         }
 
-        public Task<List<T>?> GetAll()
+        public Task<List<T>?> GetAllAsync()
         {
             return DbContext.Set<T>().ToListAsync()!;
         }
 
-        public Task<List<T>?> GetAll(Expression<Func<T, bool>> predicate)
+        public Task<List<T>?> GetAllAsync(Expression<Func<T, bool>> predicate)
         {
             return DbContext.Set<T>().AsQueryable().Where(predicate).ToListAsync()!;
         }
 
-        public async Task Add(T entity)
+        public async Task AddAsync(T entity)
         {
             await DbContext.Set<T>().AddAsync(entity);
             await DbContext.SaveChangesAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             var entity = await DbContext.Set<T>().FindAsync(id);
 
-            if(entity is not null)
-                DbContext.Set<T>().Remove(entity);
+            if (entity is null)
+                return;
 
+            DbContext.Set<T>().Remove(entity);
             await DbContext.SaveChangesAsync();
         }
 
-        public async Task Delete(T entity)
+        public async Task DeleteAsync(T entity)
         {
             DbContext.Set<T>().Remove(entity);
             await DbContext.SaveChangesAsync();
         }
 
-        public async Task Update(T entity)
+        public async Task UpdateAsync(T entity)
         {
             DbContext.Update(entity);
             await DbContext.SaveChangesAsync();

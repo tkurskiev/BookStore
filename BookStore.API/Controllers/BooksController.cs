@@ -1,6 +1,6 @@
-﻿using BookStore.API.Data;
-using BookStore.API.Data.Repositories.Implementations;
+﻿using BookStore.API.Data.Repositories.Implementations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace BookStore.API.Controllers
 {
@@ -18,7 +18,15 @@ namespace BookStore.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _books.GetAll());
+            return Ok(await _books.GetAllAsync());
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Buy([BindRequired, FromQuery] int id)
+        {
+            await _books.DeleteAsync(id);
+
+            return Ok($"The book with id = {id} was bought!");
         }
     }
 }

@@ -14,47 +14,47 @@ namespace BookStore.API.Data.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<T?> Get(int id);
+        Task<T?> GetAsync(int id);
 
         /// <summary>
         /// Получить все сущности типа <see cref="T"/>
         /// </summary>
         /// <returns></returns>
-        Task<List<T>?> GetAll();
+        Task<List<T>?> GetAllAsync();
 
         /// <summary>
         /// Получить все сущности типа <see cref="T"/>, удовлетворяющие условию <param name="predicate"></param>
         /// </summary>
         /// <param name="predicate">Условие, исходя из которого ищутся подходящие сущности</param>
         /// <returns></returns>
-        Task<List<T>?> GetAll(Expression<Func<T, bool>> predicate);
+        Task<List<T>?> GetAllAsync(Expression<Func<T, bool>> predicate);
 
         /// <summary>
         /// Добавить сущность <param name="entity"></param> в базу
         /// </summary>
         /// <param name="entity">Сущность типа <see cref="T"/></param>
         /// <returns></returns>
-        Task Add(T entity);
+        Task AddAsync(T entity);
 
         /// <summary>
         /// Удалить сущность с заданным Id
         /// </summary>
         /// <param name="id">Id сущности для удаления</param>
         /// <returns></returns>
-        Task Delete(int id);
+        Task DeleteAsync(int id);
 
         /// <summary>
         /// Удалить сущность <param name="entity"></param> из базы
         /// </summary>
         /// <param name="entity">Сущность типа <see cref="T"/></param>
         /// <returns></returns>
-        Task Delete(T entity);
+        Task DeleteAsync(T entity);
 
         /// <summary>
         /// Обновить сущность
         /// </summary>
         /// <param name="entity">Сущность типа <see cref="T"/></param>
         /// <returns></returns>
-        Task Update(T entity);
+        Task UpdateAsync(T entity);
     }
 }
