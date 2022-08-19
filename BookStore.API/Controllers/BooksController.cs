@@ -1,4 +1,6 @@
 ﻿using BookStore.API.Data.Repositories.Implementations;
+using BookStore.API.Exceptions;
+using BookStore.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -16,17 +18,35 @@ namespace BookStore.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
             return Ok(await _books.GetAllAsync());
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> Buy([BindRequired, FromQuery] int id)
+        /// <summary>
+        /// Купить книгу с указанным Id
+        /// </summary>
+        /// <param name="id">Id книги (<see cref="Book"/>)</param>
+        /// <returns></returns>
+        /// <response code="200">If the book was bought.</response>
+        /// <response code="404">If the book with the given <param name="id"></param> was not found.</response>
+        [HttpPost]
+        public async Task<IActionResult> BuyAsync([BindRequired, FromQuery] int id)
         {
-            await _books.DeleteAsync(id);
+            try
+            {
+                await _books.BuyAsync(id);
 
-            return Ok($"The book with id = {id} was bought!");
+                return Ok($"The book with id = {id} was bought!");
+            }
+            catch (DbException ex)
+            {
+                return NotFound($@"Book with id = {id} wasn't found, possibly was bought already by someone else."
+#if DEBUG
+                                + $"Exception message: {ex.Message}"
+#endif
+                    );
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BookStore.API.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using BookStore.API.Exceptions;
 
 namespace BookStore.API.Data.Repositories
 {
@@ -35,12 +36,13 @@ namespace BookStore.API.Data.Repositories
             await DbContext.SaveChangesAsync();
         }
 
+        /// <exception cref="DbContext"></exception>
         public async Task DeleteAsync(int id)
         {
             var entity = await DbContext.Set<T>().FindAsync(id);
 
             if (entity is null)
-                return;
+                throw new DbException($"There's no such entity of type {typeof(T)} in the database with the given id = {id}");
 
             DbContext.Set<T>().Remove(entity);
             await DbContext.SaveChangesAsync();

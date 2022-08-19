@@ -7,5 +7,6 @@ namespace BookStore.API.Data.Repositories.Interfaces
     /// </summary>
     public interface IBookRepository : IRepository<Book>
     {
+        Task BuyAsync(int id);
     }
 }
