@@ -36,8 +36,8 @@ namespace BookStore.API.Controllers
         /// <returns></returns>
         /// <response code="200">If the book was bought.</response>
         /// <response code="404">If the book with the given <param name="id"></param> was not found.</response>
-        [HttpPost]
-        public async Task<IActionResult> BuyAsync([BindRequired, FromQuery] int id)
+        [HttpPost("{id:int}")]
+        public async Task<IActionResult> BuyAsync(int id)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace BookStore.API.Controllers
             }
         }
 
-        [HttpPost("AddBook")]
+        [HttpPost]
         // TODO: RequestParameters instead of Book model... Because BindRequired obliges to have Id specified
         public async Task<IActionResult> AddNewAsync([BindRequired, FromBody] Book book)
         {
