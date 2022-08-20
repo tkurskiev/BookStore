@@ -65,7 +65,8 @@ namespace BookStore.API.Data.Repositories
             catch (DbUpdateException ex)
             {
                 throw new DbException($@"Error occurred while deleting entity by id from database:
-{ex.GetType()}: {ex.Message}", ex);
+{ex.GetType()}: {ex.Message}
+{ex.InnerException?.Message}", ex);
             }
         }
 
