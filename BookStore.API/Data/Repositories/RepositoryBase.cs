@@ -30,34 +30,70 @@ namespace BookStore.API.Data.Repositories
             return DbContext.Set<T>().AsQueryable().Where(predicate).ToListAsync()!;
         }
 
+        /// <exception cref="DbException"></exception>
         public async Task AddAsync(T entity)
         {
-            await DbContext.Set<T>().AddAsync(entity);
-            await DbContext.SaveChangesAsync();
+            try
+            {
+                await DbContext.Set<T>().AddAsync(entity);
+                await DbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new DbException($@"Error occurred while adding new entity to database:
+{ex.GetType()}: {ex.Message}", ex);
+            }
         }
 
-        /// <exception cref="DbContext"></exception>
+        /// <exception cref="DbException"></exception>
         public async Task DeleteAsync(int id)
         {
-            var entity = await DbContext.Set<T>().FindAsync(id);
+            try
+            {
+                var entity = await DbContext.Set<T>().FindAsync(id);
 
-            if (entity is null)
-                throw new DbException($"There's no such entity of type {typeof(T)} in the database with the given id = {id}");
+                if (entity is null)
+                    throw new DbException($"There's no such entity of type {typeof(T)} in the database with the given id = {id}");
 
-            DbContext.Set<T>().Remove(entity);
-            await DbContext.SaveChangesAsync();
+                DbContext.Set<T>().Remove(entity);
+
+                await DbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new DbException($@"Error occurred while deleting entity by id from database:
+{ex.GetType()}: {ex.Message}", ex);
+            }
         }
 
+        /// <exception cref="DbException"></exception>
         public async Task DeleteAsync(T entity)
         {
-            DbContext.Set<T>().Remove(entity);
-            await DbContext.SaveChangesAsync();
+            try
+            {
+                DbContext.Set<T>().Remove(entity);
+                await DbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new DbException($@"Error occurred while deleting entity from database:
+{ex.GetType()}: {ex.Message}", ex);
+            }
         }
 
+        /// <exception cref="DbException"></exception>
         public async Task UpdateAsync(T entity)
         {
-            DbContext.Update(entity);
-            await DbContext.SaveChangesAsync();
+            try
+            {
+                DbContext.Update(entity);
+                await DbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new DbException($@"Error occurred while updating entity in the database:
+{ex.GetType()}: {ex.Message}", ex);
+            }
         }
     }
 }

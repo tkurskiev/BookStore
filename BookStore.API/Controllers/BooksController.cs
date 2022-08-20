@@ -48,5 +48,20 @@ namespace BookStore.API.Controllers
                     );
             }
         }
+
+        // TODO: RequestParameters instead of Book model... Because BindRequired obliges to have Id specified
+        public async Task<IActionResult> AddNewAsync([BindRequired, FromBody] Book book)
+        {
+            try
+            {
+                await _books.AddAsync(book);
+                return Ok(book.Id);
+            }
+            catch (DbException ex)
+            {
+                return BadRequest(
+                    $"Failed to add book '{book.Title}' by {book.Author} to database, possibly already exists.");
+            }
+        }
     }
 }
