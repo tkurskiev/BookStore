@@ -23,8 +23,8 @@ namespace BookStore.API.Controllers
             return Ok(await _books.GetAllAsync());
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAsync([BindRequired, FromQuery] int id)
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetAsync(int id)
         {
             return Ok(await _books.GetAsync(id));
         }
@@ -55,7 +55,7 @@ namespace BookStore.API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("AddBook")]
         // TODO: RequestParameters instead of Book model... Because BindRequired obliges to have Id specified
         public async Task<IActionResult> AddNewAsync([BindRequired, FromBody] Book book)
         {
