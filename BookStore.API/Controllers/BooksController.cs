@@ -1,5 +1,8 @@
-﻿using BookStore.API.Data.Repositories.Implementations;
+﻿using BookStore.API.Contracts.Requests;
+using BookStore.API.Contracts.Responses;
+using BookStore.API.Data.Repositories.Implementations;
 using BookStore.API.Exceptions;
+using BookStore.API.Extensions;
 using BookStore.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -18,15 +21,22 @@ namespace BookStore.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<ActionResult<BookResponse>> GetAllAsync()
         {
-            return Ok(await _books.GetAllAsync());
+            var books = await _books.GetAllAsync();
+
+            return Ok(books.Select(x => x.ToBookResponse()));
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetAsync(int id)
+        public async Task<ActionResult<BookResponse>> GetAsync(int id)
         {
-            return Ok(await _books.GetAsync(id));
+            var book = await _books.GetAsync(id);
+
+            if(book is null)
+                return NotFound($"The book with the id = {id} was not found.");
+
+            return Ok(book.ToBookResponse());
         }
 
         /// <summary>
@@ -35,7 +45,7 @@ namespace BookStore.API.Controllers
         /// <param name="id">Id книги (<see cref="Book"/>)</param>
         /// <returns></returns>
         /// <response code="200">If the book was bought.</response>
-        /// <response code="404">If the book with the given <param name="id"></param> was not found.</response>
+        /// <response code="404">If the book with the given id was not found.</response>
         [HttpPost("{id:int}")]
         public async Task<IActionResult> BuyAsync(int id)
         {
@@ -56,18 +66,21 @@ namespace BookStore.API.Controllers
         }
 
         [HttpPost]
-        // TODO: RequestParameters instead of Book model... Because BindRequired obliges to have Id specified
-        public async Task<IActionResult> AddNewAsync([BindRequired, FromBody] Book book)
+        public async Task<IActionResult> AddNewAsync([BindRequired] AddNewRequest addNewBookRequest)
         {
             try
             {
-                await _books.AddAsync(book);
-                return CreatedAtAction(nameof(GetAsync), new {id = book.Id}, book);
+                var savedBook = await _books.AddAsync(addNewBookRequest.ToBook());
+
+                var bookResponse = savedBook.ToBookResponse();
+
+                return CreatedAtAction(nameof(GetAsync), new {id = bookResponse.Id}, bookResponse);
             }
             catch (DbException ex)
             {
                 return BadRequest(
-                    $"Failed to add book '{book.Title}' by {book.Author} to database, possibly already exists.");
+                    $@"Failed to add book '{addNewBookRequest.Title}' by {addNewBookRequest.Author} to database, possibly already exists.
+Error message: {ex.Message}");
             }
         }
     }

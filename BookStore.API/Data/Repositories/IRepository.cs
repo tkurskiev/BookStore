@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 namespace BookStore.API.Data.Repositories
 {
     /// <summary>
-    /// Описывает репозиторий для работы с сущностями типа <see cref="T"/>
+    /// Описывает репозиторий для работы с сущностями типа <typeparamref name="T"/>
     /// </summary>
     /// <typeparam name="T">Тип сущности</typeparam>
     public interface IRepository<T> where T : EntityBase
@@ -17,24 +17,24 @@ namespace BookStore.API.Data.Repositories
         Task<T?> GetAsync(int id);
 
         /// <summary>
-        /// Получить все сущности типа <see cref="T"/>
+        /// Получить все сущности типа <typeparamref name="T"/>
         /// </summary>
         /// <returns></returns>
-        Task<List<T>?> GetAllAsync();
+        Task<List<T>> GetAllAsync();
 
         /// <summary>
-        /// Получить все сущности типа <see cref="T"/>, удовлетворяющие условию <param name="predicate"></param>
+        /// Получить все сущности типа <typeparamref name="T"/>, удовлетворяющие условию <paramref name="predicate"/>
         /// </summary>
         /// <param name="predicate">Условие, исходя из которого ищутся подходящие сущности</param>
         /// <returns></returns>
         Task<List<T>?> GetAllAsync(Expression<Func<T, bool>> predicate);
 
         /// <summary>
-        /// Добавить сущность <param name="entity"></param> в базу
+        /// Добавить сущность <paramref name="entity"/> в базу
         /// </summary>
-        /// <param name="entity">Сущность типа <see cref="T"/></param>
+        /// <param name="entity">Сущность типа <typeparamref name="T"/></param>
         /// <returns></returns>
-        Task AddAsync(T entity);
+        Task<T> AddAsync(T entity);
 
         /// <summary>
         /// Удалить сущность с заданным Id
@@ -44,16 +44,16 @@ namespace BookStore.API.Data.Repositories
         Task DeleteAsync(int id);
 
         /// <summary>
-        /// Удалить сущность <param name="entity"></param> из базы
+        /// Удалить сущность <paramref name="entity"/> из базы
         /// </summary>
-        /// <param name="entity">Сущность типа <see cref="T"/></param>
+        /// <param name="entity">Сущность типа <typeparamref name="T"/></param>
         /// <returns></returns>
         Task DeleteAsync(T entity);
 
         /// <summary>
         /// Обновить сущность
         /// </summary>
-        /// <param name="entity">Сущность типа <see cref="T"/></param>
+        /// <param name="entity">Сущность типа <typeparamref name="T"/></param>
         /// <returns></returns>
         Task UpdateAsync(T entity);
     }

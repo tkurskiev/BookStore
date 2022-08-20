@@ -20,9 +20,9 @@ namespace BookStore.API.Data.Repositories
             return DbContext.Set<T>().FindAsync(id).AsTask();
         }
 
-        public Task<List<T>?> GetAllAsync()
+        public Task<List<T>> GetAllAsync()
         {
-            return DbContext.Set<T>().ToListAsync()!;
+            return DbContext.Set<T>().ToListAsync();
         }
 
         public Task<List<T>?> GetAllAsync(Expression<Func<T, bool>> predicate)
@@ -31,17 +31,20 @@ namespace BookStore.API.Data.Repositories
         }
 
         /// <exception cref="DbException"></exception>
-        public async Task AddAsync(T entity)
+        public async Task<T> AddAsync(T entity)
         {
             try
             {
                 await DbContext.Set<T>().AddAsync(entity);
                 await DbContext.SaveChangesAsync();
+
+                return entity;
             }
             catch (DbUpdateException ex)
             {
                 throw new DbException($@"Error occurred while adding new entity to database:
-{ex.GetType()}: {ex.Message}", ex);
+{ex.GetType()}: {ex.Message}
+{ex.InnerException?.Message}", ex);
             }
         }
 
