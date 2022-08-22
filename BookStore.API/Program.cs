@@ -2,6 +2,9 @@ using BookStore.API.Data;
 using BookStore.API.Data.Repositories.Implementations;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using BookStore.API.Data.Repositories.Interfaces;
+using BookStore.API.Services;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +12,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<BookStoreDbContext>(options =>
     options.UseSqlServer(builder.Configuration["ConnectionStrings:BookStoreDatabase"]));
-builder.Services.AddScoped<BookRepository>();
+
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+
+builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<IUriService>(provider =>
+{
+    var accessor = provider.GetRequiredService<IHttpContextAccessor>();
+    var request = accessor.HttpContext?.Request;
+    var absoluteUri = string.Concat(request?.Scheme, "://", request?.Host.ToUriComponent(), "/");
+    return new UriService(absoluteUri);
+});
+
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

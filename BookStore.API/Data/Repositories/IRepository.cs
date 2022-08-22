@@ -20,7 +20,7 @@ namespace BookStore.API.Data.Repositories
         /// Получить все сущности типа <typeparamref name="T"/>
         /// </summary>
         /// <returns></returns>
-        Task<List<T>> GetAllAsync();
+        Task<List<T>> GetAllAsync(PaginationFilter? paginationFilter = null);
 
         /// <summary>
         /// Получить все сущности типа <typeparamref name="T"/>, удовлетворяющие условию <paramref name="predicate"/>

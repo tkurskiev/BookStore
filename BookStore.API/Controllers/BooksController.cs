@@ -1,9 +1,13 @@
 ﻿using BookStore.API.Contracts.Requests;
+using BookStore.API.Contracts.Requests.Queries;
 using BookStore.API.Contracts.Responses;
 using BookStore.API.Data.Repositories.Implementations;
+using BookStore.API.Data.Repositories.Interfaces;
 using BookStore.API.Exceptions;
 using BookStore.API.Extensions;
+using BookStore.API.Helpers;
 using BookStore.API.Models;
+using BookStore.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -13,21 +17,35 @@ namespace BookStore.API.Controllers
     [Route("api/[controller]")]
     public class BooksController : ControllerBase
     {
-        private readonly BookRepository _books;
+        private readonly IBookRepository _books;
+        private readonly IUriService _uriService;
 
-        public BooksController(BookRepository books)
+        public BooksController(IBookRepository books, IUriService uriService)
         {
             _books = books;
+            _uriService = uriService;
         }
 
+        /// <summary>
+        /// Get all the books according to given filters
+        /// </summary>
+        /// <param name="paginationQuery"></param>
+        /// <response code="200">The response with data <see cref="PagedResponse{T}"/></response>
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<IActionResult> GetAllAsync([FromQuery] PaginationQuery paginationQuery)
         {
-            var books = await _books.GetAllAsync();
+            var pagination = paginationQuery.ToPaginationFilter();
+            var books = await _books.GetAllAsync(pagination);
 
-            var booksResponse = books.Select(x => x.ToBookResponse());
+            var booksResponse = books.Select(x => x.ToBookResponse()).ToList();
 
-            return Ok(new PagedResponse<BookResponse>(booksResponse));
+            if (pagination.PageNumber < 1 || pagination.PageSize < 1)
+                return Ok(new PagedResponse<BookResponse>(booksResponse));
+
+            // TODO: "api/books" part in generated Url for next and previous pages
+            var pagedResponse = PaginationHelpers.CreatePagedResponse(_uriService, pagination, booksResponse);
+
+            return Ok(pagedResponse);
         }
 
         [HttpGet("{id:int}")]
@@ -76,7 +94,8 @@ namespace BookStore.API.Controllers
 
                 var bookResponse = savedBook.ToBookResponse();
 
-                return CreatedAtAction(nameof(GetAsync).Replace("Async", ""), new {id = bookResponse.Id}, 
+                return CreatedAtAction(nameof(GetAsync).Replace("Async", ""),
+                    new { id = bookResponse.Id },
                     new Response<BookResponse>(bookResponse));
             }
             catch (DbException ex)

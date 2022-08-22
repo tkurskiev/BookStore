@@ -1,7 +1,7 @@
-﻿using BookStore.API.Models;
+﻿using BookStore.API.Exceptions;
+using BookStore.API.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using BookStore.API.Exceptions;
 
 namespace BookStore.API.Data.Repositories
 {
@@ -20,9 +20,17 @@ namespace BookStore.API.Data.Repositories
             return DbContext.Set<T>().FindAsync(id).AsTask();
         }
 
-        public Task<List<T>> GetAllAsync()
+        public Task<List<T>> GetAllAsync(PaginationFilter? paginationFilter = null)
         {
-            return DbContext.Set<T>().ToListAsync();
+            if (paginationFilter is null)
+                return DbContext.Set<T>().ToListAsync();
+
+            var skip = (paginationFilter.PageNumber - 1) * paginationFilter.PageSize;
+
+            return DbContext.Set<T>()
+                .Skip(skip)
+                .Take(paginationFilter.PageSize)
+                .ToListAsync();
         }
 
         public Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
