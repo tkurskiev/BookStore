@@ -12,15 +12,18 @@ namespace BookStore.API.Services
             _baseUri = baseUri;
         }
 
-        public Uri GetAllBooksUri(PaginationQuery? pagination = null)
+        public Uri GetAllBooksUri(string? controllerPathPart = null, PaginationQuery? pagination = null)
         {
             var uri = new Uri(_baseUri);
 
             if (pagination is null)
                 return uri;
 
-            var modifiedUri = QueryHelpers.AddQueryString(_baseUri, 
-                "pageNumber", 
+            if (controllerPathPart is not null)
+                uri = new Uri(uri, controllerPathPart);
+
+            var modifiedUri = QueryHelpers.AddQueryString(uri.AbsoluteUri,
+                "pageNumber",
                 pagination.PageNumber.ToString());
 
             modifiedUri = QueryHelpers.AddQueryString(modifiedUri,

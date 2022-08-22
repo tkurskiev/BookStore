@@ -7,16 +7,16 @@ namespace BookStore.API.Helpers
 {
     public class PaginationHelpers
     {
-        public static PagedResponse<T> CreatePagedResponse<T>(IUriService uriService, PaginationFilter pagination, List<T> response)
+        public static PagedResponse<T> CreatePagedResponse<T>(IUriService uriService, PaginationFilter pagination, List<T> response, string? controllerPathPart = null)
         {
             var nextPage = pagination.PageNumber >= 1
-                ? uriService.GetAllBooksUri(
+                ? uriService.GetAllBooksUri(controllerPathPart,
                         new PaginationQuery(pagination.PageNumber + 1, pagination.PageSize))
                     .ToString()
                 : null;
 
             var previousPage = pagination.PageNumber - 1 >= 1
-                ? uriService.GetAllBooksUri(
+                ? uriService.GetAllBooksUri(controllerPathPart,
                         new PaginationQuery(pagination.PageNumber - 1, pagination.PageSize))
                     .ToString()
                 : null;

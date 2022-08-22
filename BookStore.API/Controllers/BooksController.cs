@@ -42,8 +42,8 @@ namespace BookStore.API.Controllers
             if (pagination.PageNumber < 1 || pagination.PageSize < 1)
                 return Ok(new PagedResponse<BookResponse>(booksResponse));
 
-            // TODO: "api/books" part in generated Url for next and previous pages
-            var pagedResponse = PaginationHelpers.CreatePagedResponse(_uriService, pagination, booksResponse);
+            var pagedResponse =
+                PaginationHelpers.CreatePagedResponse(_uriService, pagination, booksResponse, Request.Path.ToString());
 
             return Ok(pagedResponse);
         }
