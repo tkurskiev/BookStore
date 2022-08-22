@@ -21,26 +21,28 @@ namespace BookStore.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<BookResponse>> GetAllAsync()
+        public async Task<IActionResult> GetAllAsync()
         {
             var books = await _books.GetAllAsync();
 
-            return Ok(books.Select(x => x.ToBookResponse()));
+            var booksResponse = books.Select(x => x.ToBookResponse());
+
+            return Ok(new PagedResponse<BookResponse>(booksResponse));
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<BookResponse>> GetAsync(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
             var book = await _books.GetAsync(id);
 
             if(book is null)
                 return NotFound($"The book with the id = {id} was not found.");
 
-            return Ok(book.ToBookResponse());
+            return Ok(new Response<BookResponse>(book.ToBookResponse()));
         }
 
         /// <summary>
-        /// Купить книгу с указанным Id
+        /// Buy a book with the given <paramref name="id"/>
         /// </summary>
         /// <param name="id">Id книги (<see cref="Book"/>)</param>
         /// <returns></returns>
@@ -74,7 +76,8 @@ namespace BookStore.API.Controllers
 
                 var bookResponse = savedBook.ToBookResponse();
 
-                return CreatedAtAction(nameof(GetAsync), new {id = bookResponse.Id}, bookResponse);
+                return CreatedAtAction(nameof(GetAsync).Replace("Async", ""), new {id = bookResponse.Id}, 
+                    new Response<BookResponse>(bookResponse));
             }
             catch (DbException ex)
             {

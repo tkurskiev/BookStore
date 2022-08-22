@@ -27,7 +27,7 @@ namespace BookStore.API.Data.Repositories
         /// </summary>
         /// <param name="predicate">Условие, исходя из которого ищутся подходящие сущности</param>
         /// <returns></returns>
-        Task<List<T>?> GetAllAsync(Expression<Func<T, bool>> predicate);
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate);
 
         /// <summary>
         /// Добавить сущность <paramref name="entity"/> в базу

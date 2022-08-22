@@ -25,9 +25,9 @@ namespace BookStore.API.Data.Repositories
             return DbContext.Set<T>().ToListAsync();
         }
 
-        public Task<List<T>?> GetAllAsync(Expression<Func<T, bool>> predicate)
+        public Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
         {
-            return DbContext.Set<T>().AsQueryable().Where(predicate).ToListAsync()!;
+            return DbContext.Set<T>().AsQueryable().Where(predicate).ToListAsync();
         }
 
         /// <exception cref="DbException"></exception>
