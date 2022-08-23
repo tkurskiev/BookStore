@@ -31,7 +31,9 @@ namespace BookStore.API.Extensions
             {
                 Author = getAllBooksQuery.Author,
                 Title = getAllBooksQuery.Title,
-                PublicationDate = getAllBooksQuery.PublicationDate,
+                PublicationDate = getAllBooksQuery.PublicationDate is null
+                    ? null
+                    : DateTime.Parse(getAllBooksQuery.PublicationDate),
                 OrderBy = getAllBooksQuery.OrderBy
             };
         }

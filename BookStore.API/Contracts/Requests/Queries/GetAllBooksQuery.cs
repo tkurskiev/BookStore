@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
+using BookStore.API.Contracts.Attributes;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.API.Contracts.Requests.Queries
 {
@@ -10,11 +12,13 @@ namespace BookStore.API.Contracts.Requests.Queries
         [FromQuery(Name = "author")]
         public string? Author { get; set; }
 
-        // TODO: Format Checking yyyy-MM-dd
         [FromQuery(Name = "publicationDate")]
-        public DateTime? PublicationDate { get; set; }
+        [CheckDateTimeFormat(ErrorMessage =
+            "The given value for publication date is in incorrect format, should be 'yyyy-MM-dd'.")]
+        public string? PublicationDate { get; set; }
 
-        // TODO: usage of this property for filtering too...
+        [RegularExpression("author|title|publicationDate",
+            ErrorMessage = "Invalid 'orderBy' parameter, should have one of the following values: author, title, publicationDate")]
         [FromQuery(Name = "orderBy")]
         public string? OrderBy { get; set; }
     }
