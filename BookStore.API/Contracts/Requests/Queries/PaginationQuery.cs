@@ -1,4 +1,6 @@
-﻿namespace BookStore.API.Contracts.Requests.Queries
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace BookStore.API.Contracts.Requests.Queries
 {
     public class PaginationQuery
     {
@@ -14,8 +16,10 @@
             PageSize = pageSize;
         }
 
+        [FromQuery(Name = "pageNumber")]
         public int PageNumber { get; set; }
 
+        [FromQuery(Name = "pageSize")]
         public int PageSize { get; set; }
     }
 }

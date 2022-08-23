@@ -7,6 +7,6 @@
             Data = response;
         }
 
-        public T? Data { get; set; }
+        public T Data { get; set; }
     }
 }

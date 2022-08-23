@@ -17,10 +17,10 @@ namespace BookStore.API.Controllers
     [Route("api/[controller]")]
     public class BooksController : ControllerBase
     {
-        private readonly IBookRepository _books;
+        private readonly IBooksRepository _books;
         private readonly IUriService _uriService;
 
-        public BooksController(IBookRepository books, IUriService uriService)
+        public BooksController(IBooksRepository books, IUriService uriService)
         {
             _books = books;
             _uriService = uriService;
@@ -29,13 +29,15 @@ namespace BookStore.API.Controllers
         /// <summary>
         /// Get all the books according to given filters
         /// </summary>
+        /// <param name="allBooksQuery"></param>
         /// <param name="paginationQuery"></param>
-        /// <response code="200">The response with data <see cref="PagedResponse{T}"/></response>
+        /// <response code="200">Returns 201 response with value of type: <see cref="PagedResponse{T}"/></response>
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync([FromQuery] PaginationQuery paginationQuery)
+        public async Task<IActionResult> GetAllAsync([FromQuery] GetAllBooksQuery allBooksQuery, [FromQuery] PaginationQuery paginationQuery)
         {
             var pagination = paginationQuery.ToPaginationFilter();
-            var books = await _books.GetAllAsync(pagination);
+            var filter = allBooksQuery.ToGetAllBooksFilter();
+            var books = await _books.GetAllAsync(filter, pagination);
 
             var booksResponse = books.Select(x => x.ToBookResponse()).ToList();
 

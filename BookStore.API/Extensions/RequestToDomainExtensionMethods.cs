@@ -24,5 +24,16 @@ namespace BookStore.API.Extensions
                 PageSize = paginationQuery.PageSize
             };
         }
+
+        public static GetAllBooksFilter ToGetAllBooksFilter(this GetAllBooksQuery getAllBooksQuery)
+        {
+            return new GetAllBooksFilter
+            {
+                Author = getAllBooksQuery.Author,
+                Title = getAllBooksQuery.Title,
+                PublicationDate = getAllBooksQuery.PublicationDate,
+                OrderBy = getAllBooksQuery.OrderBy
+            };
+        }
     }
 }

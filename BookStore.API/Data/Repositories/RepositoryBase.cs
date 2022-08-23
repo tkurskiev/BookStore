@@ -20,16 +20,15 @@ namespace BookStore.API.Data.Repositories
             return DbContext.Set<T>().FindAsync(id).AsTask();
         }
 
-        public Task<List<T>> GetAllAsync(PaginationFilter? paginationFilter = null)
+        public virtual Task<List<T>> GetAllAsync(PaginationFilter? paginationFilter = null)
         {
-            if (paginationFilter is null)
-                return DbContext.Set<T>().ToListAsync();
+            var queryable = DbContext.Set<T>().AsQueryable();
 
-            var skip = (paginationFilter.PageNumber - 1) * paginationFilter.PageSize;
+            if (paginationFilter is not null)
+                queryable = AddPaginationFiltersOnQuery(paginationFilter, queryable);
 
-            return DbContext.Set<T>()
-                .Skip(skip)
-                .Take(paginationFilter.PageSize)
+            return queryable
+                .OrderBy(x => x.Id)
                 .ToListAsync();
         }
 
@@ -106,6 +105,15 @@ namespace BookStore.API.Data.Repositories
                 throw new DbException($@"Error occurred while updating entity in the database:
 {ex.GetType()}: {ex.Message}", ex);
             }
+        }
+
+        protected IQueryable<T> AddPaginationFiltersOnQuery(PaginationFilter paginationFilter, IQueryable<T> queryable)
+        {
+            var skip = (paginationFilter.PageNumber - 1) * paginationFilter.PageSize;
+
+            return queryable
+                .Skip(skip)
+                .Take(paginationFilter.PageSize);
         }
     }
 }
