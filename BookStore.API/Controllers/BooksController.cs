@@ -29,8 +29,8 @@ namespace BookStore.API.Controllers
         /// <summary>
         /// Get all the books according to given filters
         /// </summary>
-        /// <param name="allBooksQuery"></param>
-        /// <param name="paginationQuery"></param>
+        /// <param name="allBooksQuery">Model with parameters for filtering the books.</param>
+        /// <param name="paginationQuery">Model with parameters for paginating the response.</param>
         /// <response code="200">Returns 201 response with value of type: <see cref="PagedResponse{T}"/></response>
         [HttpGet]
         public async Task<IActionResult> GetAllAsync([FromQuery] GetAllBooksQuery allBooksQuery, [FromQuery] PaginationQuery paginationQuery)
