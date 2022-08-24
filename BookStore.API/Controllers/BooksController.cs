@@ -1,7 +1,6 @@
 ﻿using BookStore.API.Contracts.Requests;
 using BookStore.API.Contracts.Requests.Queries;
 using BookStore.API.Contracts.Responses;
-using BookStore.API.Data.Repositories.Implementations;
 using BookStore.API.Data.Repositories.Interfaces;
 using BookStore.API.Exceptions;
 using BookStore.API.Extensions;
