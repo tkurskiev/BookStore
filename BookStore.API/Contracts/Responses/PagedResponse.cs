@@ -2,9 +2,14 @@
 {
     public class PagedResponse<T>
     {
-        public PagedResponse(IEnumerable<T> responseData)
+        public PagedResponse()
         {
-            Data = responseData;
+            Data = Enumerable.Empty<T>();
+        }
+
+        public PagedResponse(IEnumerable<T> data)
+        {
+            Data = data;
         }
 
         public IEnumerable<T> Data { get; set; }
