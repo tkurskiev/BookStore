@@ -44,7 +44,8 @@ namespace BookStore.API.Controllers
                 return Ok(new PagedResponse<BookResponse>(booksResponse));
 
             var pagedResponse =
-                PaginationHelpers.CreatePagedResponse(_uriService, pagination, booksResponse, Request.Path.ToString());
+                PaginationHelpers.CreatePagedResponse(_uriService, booksResponse, pagination, filter,
+                    Request.Path.ToString());
 
             return Ok(pagedResponse);
         }
