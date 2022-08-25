@@ -1,7 +1,6 @@
-﻿using System.CommandLine;
-using BookStore.API.Contracts.Responses;
-using BookStore.API.Models;
+﻿using BookStore.API.Contracts.Responses;
 using Newtonsoft.Json;
+using System.CommandLine;
 
 namespace BookStore.Client
 {

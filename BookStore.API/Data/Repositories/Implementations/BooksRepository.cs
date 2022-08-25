@@ -35,7 +35,7 @@ namespace BookStore.API.Data.Repositories.Implementations
                 queryable = queryable.Where(x => x.Author == filter.Author);
 
             if(!string.IsNullOrWhiteSpace(filter.Title))
-                queryable = queryable.Where(x => x.Title!.Contains(filter.Title, StringComparison.InvariantCultureIgnoreCase));
+                queryable = queryable.Where(x => EF.Functions.Like(x.Title!, $"%{filter.Title}%"));
 
             if (filter.PublicationDate is not null)
             {
