@@ -14,7 +14,7 @@ namespace BookStore.API.Services
         }
 
         public Uri GetAllBooksUri(string? controllerPathPart = null, PaginationQuery? pagination = null,
-            GetAllBooksQuery? getAllBooksQuery = null)
+            GetAllBooksQuery? filter = null)
         {
             var uri = new Uri(_baseUri);
 
@@ -24,8 +24,8 @@ namespace BookStore.API.Services
             if (pagination is not null)
                 uri = new Uri(AddPaginationQuery(uri.AbsoluteUri, pagination));
 
-            if (getAllBooksQuery is not null)
-                uri = new Uri(AddGetAllBooksQuery(uri.AbsoluteUri, getAllBooksQuery));
+            if (filter is not null)
+                uri = new Uri(AddFilterQuery(uri.AbsoluteUri, filter));
 
             return uri;
         }
@@ -43,15 +43,15 @@ namespace BookStore.API.Services
             return modifiedUri;
         }
 
-        private string AddGetAllBooksQuery(string uri, GetAllBooksQuery getAllBooksQuery)
+        private string AddFilterQuery(string uri, GetAllBooksQuery filter)
         {
-            var modifiedUri = AddPathPart(uri, "author", getAllBooksQuery.Author);
+            var modifiedUri = AddPathPart(uri, "author", filter.Author);
 
-            modifiedUri = AddPathPart(modifiedUri, "title", getAllBooksQuery.Title);
+            modifiedUri = AddPathPart(modifiedUri, "title", filter.Title);
 
-            modifiedUri = AddPathPart(modifiedUri, "publicationDate", getAllBooksQuery.PublicationDate);
+            modifiedUri = AddPathPart(modifiedUri, "publicationDate", filter.PublicationDate);
 
-            modifiedUri = AddPathPart(modifiedUri, "orderBy", getAllBooksQuery.OrderBy);
+            modifiedUri = AddPathPart(modifiedUri, "orderBy", filter.OrderBy);
 
             return modifiedUri;
         }

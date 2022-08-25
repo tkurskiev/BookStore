@@ -10,19 +10,19 @@ namespace BookStore.API.Helpers
     {
         public static PagedResponse<T> CreatePagedResponse<T>(IUriService uriService, List<T> response, PaginationFilter pagination, GetAllBooksFilter? getAllBooksFilter = null, string? controllerPathPart = null)
         {
-            var getAllBooksQuery = getAllBooksFilter?.ToGetAllBooksQuery();
+            var filter = getAllBooksFilter?.ToGetAllBooksQuery();
 
             var nextPage = pagination.PageNumber >= 1
                 ? uriService.GetAllBooksUri(controllerPathPart,
                         new PaginationQuery(pagination.PageNumber + 1, pagination.PageSize),
-                        getAllBooksQuery)
+                        filter)
                     .ToString()
                 : null;
 
             var previousPage = pagination.PageNumber - 1 >= 1
                 ? uriService.GetAllBooksUri(controllerPathPart,
                         new PaginationQuery(pagination.PageNumber - 1, pagination.PageSize),
-                        getAllBooksQuery)
+                        filter)
                     .ToString()
                 : null;
 
