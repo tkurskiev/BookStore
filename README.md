@@ -1,4 +1,13 @@
 # BookStore
+## BookStore.Client project
+First, start the BookStore.API project in preferred way (with/without debugging). Then using command line tool or Visual Studio's terminal window,
+cd into the folder with the project BookStore.Client, then use following commands in order to make requests to the API:
+> get
+> getByUri
+> buy
+
+### .NET CLI dotnet run commands
+To make a get request to 
 
 ## BookStore.API project
 ### EF Scripts
