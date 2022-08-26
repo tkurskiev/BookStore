@@ -1,6 +1,7 @@
 # BookStore
 
-## EF Scripts
+## BookStore.API project
+### EF Scripts
 
 Database scaffolding:
 ```
@@ -11,7 +12,7 @@ or:
 dotnet ef dbcontext scaffold Name=ConnectionStrings:BookStoreDatabase  Microsoft.EntityFrameworkCore.SqlServer -o Models --context-dir Data
 ```
 
-## SQL Scripts
+### SQL Scripts
 
 ```
 CREATE DATABASE BookStoreDb;
