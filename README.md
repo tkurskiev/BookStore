@@ -1,6 +1,6 @@
 # BookStore
 ## BookStore.Client project
-First, start the BookStore.API project in preferred way (with/without debugging). Then using command line tool or Visual Studio's terminal window,
+First, start the BookStore.API project in the preferred way (with/without debugging). Then using command line tool or Visual Studio's terminal window,
 cd into the folder with the project BookStore.Client, then use following commands in order to make requests to the API:
 1. ```get``` with possible options:
     - ```--author```
