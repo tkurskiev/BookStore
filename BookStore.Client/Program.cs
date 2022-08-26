@@ -10,6 +10,8 @@ namespace BookStore.Client
     {
         static async Task Main(string[] args)
         {
+            #region Command line arguments test data
+
 #if Test
 
             //args = new[] {"get", "--orderBy=title", "--pageNumber", "1", "--pageSize", "10", "--title", "Test"};
@@ -17,6 +19,8 @@ namespace BookStore.Client
             //args = new[] {"buy", "--id=87"};
 
 #endif
+
+            #endregion
 
             Console.WriteLine(@"Client for making http requests to the BookStore.API.
 In order to get help, use:
