@@ -10,16 +10,6 @@ cd into the folder with the project BookStore.Client, then use following command
 To make a get request to 
 
 ## BookStore.API project
-### EF Scripts
-
-Database scaffolding:
-```
-dotnet ef dbcontext scaffold "Server=.;Database=BookStoreDb;User Id=Tims;Password=LightningBolt1;" Microsoft.EntityFrameworkCore.SqlServer -o Models --context-dir Data
-```
-or:
-```
-dotnet ef dbcontext scaffold Name=ConnectionStrings:BookStoreDatabase  Microsoft.EntityFrameworkCore.SqlServer -o Models --context-dir Data
-```
 
 ### SQL Scripts
 
@@ -316,4 +306,15 @@ BEGIN
     EXEC sp_addrolemember N'db_owner', N'Tims'
 END;
 GO
+```
+
+### EF Scripts (right now not required, only initial  migration exists)
+
+Database scaffolding:
+```
+dotnet ef dbcontext scaffold "Server=.;Database=BookStoreDb;User Id=Tims;Password=LightningBolt1;" Microsoft.EntityFrameworkCore.SqlServer -o Models --context-dir Data
+```
+or:
+```
+dotnet ef dbcontext scaffold Name=ConnectionStrings:BookStoreDatabase  Microsoft.EntityFrameworkCore.SqlServer -o Models --context-dir Data
 ```
