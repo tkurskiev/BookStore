@@ -1,5 +1,8 @@
 # BookStore
+
 ## BookStore.Client project
+
+### .NET CLI dotnet run commands
 First, start the BookStore.API project in the preferred way (with/without debugging). Then using command line tool or Visual Studio's terminal window,
 cd into the folder with the project BookStore.Client, then use following commands in order to make requests to the API:
 1. ```get``` with possible options:
@@ -18,12 +21,9 @@ cd into the folder with the project BookStore.Client, then use following command
 3. ```buy``` with option:
     - ```--id```, which is **required**
 
-### .NET CLI dotnet run commands
-To make a get request to 
-
 ## BookStore.API project
 
-### SQL Scripts
+### SQL Scripts for database, user and data creation
 
 ```
 CREATE DATABASE BookStoreDb;
