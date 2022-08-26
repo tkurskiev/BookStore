@@ -58,7 +58,7 @@ to the application run.
 
                 var books = await client.GetAllBooksAsync(filterQuery);
 
-                PrintOutBooksResponse(books);
+                PrintOutBooksResponse(books!);
             }
             catch (HttpRequestException ex)
             {
@@ -72,7 +72,7 @@ to the application run.
             {
                 var books = await client.GetByUriAsync(opts.Uri);
 
-                PrintOutBooksResponse(books);
+                PrintOutBooksResponse(books!);
             }
             catch (HttpRequestException ex)
             {

@@ -456,7 +456,7 @@
             foreach (var book in Books)
             {
                 var yearString = book.PublicationDateString;
-                var year = int.Parse(yearString);
+                var year = int.Parse(yearString!);
 
                 var randomDay = random.Next(1, 28);
                 var randomMonth = random.Next(1, 12);
