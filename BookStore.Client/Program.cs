@@ -1,6 +1,4 @@
-﻿//#define Test
-
-using BookStore.API.Contracts.Responses;
+﻿using BookStore.API.Contracts.Responses;
 using BookStore.Client.Commands;
 using CommandLine;
 
