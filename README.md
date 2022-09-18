@@ -1,5 +1,7 @@
 # BookStore
 
+Условия тестового задания описаны в файле task.txt
+
 ## BookStore.Client project
 
 ### .NET CLI dotnet run commands
